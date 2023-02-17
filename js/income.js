@@ -4,10 +4,14 @@ function inputFieldValue(inputId){
     const incomeValue = incomeValueString;
     return incomeValue;
 }
+function textFieldValue(inputTextId){
+    const TextField = document.getElementById(inputTextId);
+    const textFieldValueString = parseFloat(TextField.innerText);
+    const previousTextFieldValue = textFieldValueString;
+    return previousTextFieldValue;
+}
 document.getElementById('calculate-btn').addEventListener('click', function(){
-    const totalIncome = document.getElementById('income-field');
-    const totalIncomeValueString =parseFloat(totalIncome.value);
-    const totalincomeValue = totalIncomeValueString;
+    const totalIncome = inputFieldValue('income-field');
 
     const foodValue = inputFieldValue('food-field');
     const rentValue = inputFieldValue('rent-field');
@@ -15,36 +19,25 @@ document.getElementById('calculate-btn').addEventListener('click', function(){
     const totalExpense = foodValue + rentValue + clothesValue;
     
     const expenses = document.getElementById('expense-field');
-    const expenseValueString = expenses.innerText;
-    const expensePreviousValue = parseInt(expenseValueString);
-    const expenseNewValue = totalExpense - expensePreviousValue;
-    expenses.innerText = expenseNewValue;
-     
-    const remainingIncome = totalincomeValue - totalExpense;
+    expenses.innerText = totalExpense;
 
     const balance = document.getElementById('balance-field');
-    const balanceString = balance.innerText;
-    const previousBalance = parseFloat(balanceString);
-    const newBalance = previousBalance + remainingIncome;
-    balance.innerText = newBalance;
+    balance.innerText = totalIncome - totalExpense;
 })
-document.getElementById('save-btn').addEventListener('click', function(){
-    const saveField = document.getElementById('save-field');
-    const saveFieldValueString = saveField.value;
-    const previousSaveFieldValue = parseFloat(saveFieldValueString);
 
-    const newSaveFieldValue = previousSaveFieldValue/100;
-    
-    const balance = document.getElementById('balance-field');
-    const balanceValueString = parseInt(balance.innerText);
-    const balanceValue = balanceValueString;
-    const newBalanceVlaue = balanceValue * newSaveFieldValue;
+document.getElementById('save-btn').addEventListener('click', function(){ 
+    const previousSaveFieldValue = inputFieldValue('save-field');
+    const newSaveFieldValuePercent =(previousSaveFieldValue/100);
+    //console.log(newSaveFieldValuePercent);
+    const totalIncomes = inputFieldValue('income-field');
+    //console.log(totalIncome);
+    const saving = document.getElementById('saving-field');
+    saving.innerText = newSaveFieldValuePercent * totalIncomes;
 
-    const savingAmount = document.getElementById('saving-field');
-    savingAmount.innerText = newBalanceVlaue;
+    const balance = textFieldValue('balance-field');
 
-    const remainingBalanceValue = balanceValue - newBalanceVlaue;
+    const savingAmount = textFieldValue('saving-field');
 
-    const remainingBalance = document.getElementById('remaining-field');
-    remainingBalance.innerText = remainingBalanceValue;
-})
+    const remaining = document.getElementById('remaining-field');
+    remaining.innerText = balance - savingAmount;
+ })
